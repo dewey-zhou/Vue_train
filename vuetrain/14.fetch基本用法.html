@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // fetch('http://127.0.0.1:8888/status').then(data => {
+        //     //text()方法属于fetchAPI的一部分，它返回Promise的实例对象，用于获取后台返回的数据
+        //     return data.text()
+        // }).then(ret => {
+        //     console.log(ret)
+        // })
+        fetch('http://127.0.0.1:8888/xym?id=1006', {
+                method: 'get'
+            })
+            .then(function (data) {
+                return data.text()
+            }).then(function (data) {
+                console.log(data)
+            })
+        fetch('http://127.0.0.1:8888/yy/1006', {
+                method: 'get'
+            })
+            .then(function (data) {
+                return data.text()
+            }).then(function (data) {
+                console.log(data)
+            })
+
+        // post请求
+        fetch('http://127.0.0.1:8888/post', {
+                method: 'post',
+                body: 'uname=lisi&pwd=123',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+            .then(function (data) {
+                return data.text()
+            }).then(function (data) {
+                console.log(data)
+            })
+        // put请求
+        // fetch('http://127.0.0.1:8888/put', {
+        //         method: 'put',
+        //         body: JSON.stringify({
+        //             uname: '张三',
+        //             pwd: '789'
+        //         }),
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         }
+        //     })
+        //     .then(function (data) {
+        //         return data.text()
+        //     }).then(function (data) {
+        //         console.log(data)
+        //     })
+        // 
+        // 
+        // Fetch相应结果的数据格式
+        fetch('http://127.0.0.1:8888/status').then(function (data) {
+            return data.json()
+        }).then(function (data) {
+            console.log(data)
+            console.log(data.RECORDS[0].name)
+        })
+    </script>
+</body>
+
+</html>

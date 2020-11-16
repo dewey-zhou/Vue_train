@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>选项卡</title>
+</head>
+<style>
+    .content {
+        margin: 100px;
+    }
+
+    .border {
+        width: 100px;
+        height: 50px;
+        border: 1px brown solid;
+        float: left;
+    }
+
+    img {
+        width: 300px;
+        height: 300px;
+
+    }
+
+    .click {
+        background-color: burlywood;
+    }
+</style>
+
+<body>
+    <div id="app" class="content">
+        <div class="border" :class="id===index?'click':''" :key='index' v-for='(msg,index) in msgs' @click='sd(index)'>
+            {{msg.sb}} </div>
+        <img v-if='id===index' v-for='(msg,index) in msgs' :src=msg.img />
+    </div>
+    <script src="../js/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                id: 0,
+                msgs: [{
+                    sb: 'car',
+                    img: './img/car.jpg'
+                }, {
+                    sb: 'cat',
+                    img: './img/cat.jpg'
+                }, {
+                    sb: 'dog',
+                    img: './img/dog.jpg'
+                }]
+            },
+            methods: {
+                sd: function (index) {
+                    this.id = index
+                }
+            }
+        })
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <div :style='{fontSize: fontSize +"px"}'>sad</div>
+        <menu-item v-on:enlarge-text='handle'></menu-item>
+
+    </div>
+    <script src="../js/vue.js"></script>
+    <script>
+        Vue.component('menu-item', {
+            data: function () {
+                return {
+                    msg: 'wa'
+                }
+            },
+
+            template: `<div><button v-on:click='
+            $emit("enlarge-text")
+            '>扩大字体</button></div>`
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                parr: ['apple', 'orange', 'banana'],
+                fontSize: 1
+            },
+            methods: {
+                handle: function () {
+                    this.fontSize += 5
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

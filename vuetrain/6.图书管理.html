@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图书管理</title>
+</head>
+
+<body>
+    <div id="app">
+        <div><span>编号：</span><input type="text" v-model='newId' :disabled='isDisabled'><span>名称：</span><input
+                type="text" v-model='newName'><button @click='save' :disabled='isSave'>提交</button></div>
+        <table border="1">
+            <tr>
+                <td>编号</td>
+                <td>名称</td>
+                <td>时间</td>
+                <td>操作</td>
+            </tr>
+            <tr v-for='book in books' :key=book.id>
+                <td>{{book.id}}</td>
+                <td>{{book.name}}</td>
+                <td>{{book.date}}</td>
+                <td><a href='' @click.prevent='toEdit(book.id)'>修改</a>| <a href=''
+                        @click.prevent='deletess(book.id)'>删除</a> </td>
+            </tr>
+        </table>
+    </div>
+    <script src="../js/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                books: [{
+                        id: 1,
+                        name: '三国演义',
+                        date: '2018-01-01'
+                    },
+                    {
+                        id: 2,
+                        name: '水浒传',
+                        date: '2018-01-01'
+                    },
+                    {
+                        id: 3,
+                        name: '红楼梦',
+                        date: '2018-01-01'
+                    },
+                    {
+                        id: 4,
+                        name: '西游记',
+                        date: '2018-01-01'
+                    }
+                ],
+                newId: '',
+                newName: '',
+                isDisabled: false,
+                isSave: false
+            },
+            methods: {
+                save: function () {
+                    if (this.isDisabled) {
+                        //编辑操作
+                        //根据当前的ID去更新数组中对应的数据
+                        this.books.some((book) => {
+                            if (book.id === this.newId) {
+                                book.name = this.newName
+                                //找到后 终止循环 （注：本来用foreach也可以 ，但是不能提前中止循环 所以用some  同样的都是遍历）
+                                return true
+                            }
+                        })
+                    } else {
+                        var book = {}
+                        book.id = this.newId
+                        book.name = this.newName
+                        book.date = ''
+                        this.books.push(book)
+                    }
+                    //  清空表单
+                    this.newId = ''
+                    this.newName = ''
+                    this.isDisabled = false
+
+                },
+                toEdit: function (id) {
+                    //根据id查询出要编辑的数据
+                    var book = this.books.filter(function (book) {
+                        return book.id == id
+                    })
+                    //把获取到的信息填充到表单
+                    this.newId = book[0].id
+                    this.newName = book[0].name
+                    this.isDisabled = true
+
+                },
+                deletess: function (id) {
+                    //因为id不一定是索引所以先找到索引
+                    var index = this.books.findIndex(function (book) {
+                        return book.id == id
+                    })
+                    //删除
+                    this.books.splice(index, 1)
+                }
+            },
+            watch: {
+                newId: function (id) {
+                    var flag = this.books.some(function (book) {
+                        return book.id == id
+                    })
+                    if (flag) {
+                        this.isSave = true
+                    } else {
+                        this.isSave = false
+                    }
+                },
+                newName: function (val) {
+                    var flag = this.books.some(function (book) {
+                        return book.name == val
+                    })
+                    if (flag) {
+                        this.isSave = true
+                    } else {
+                        this.isSave = false
+                    }
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

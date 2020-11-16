@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="./js/axios.js"></script>
+    <script>
+        axios.get('http://127.0.0.1:8888/status').then(
+            function (ret) {
+                console.log(ret.data)
+            })
+        axios.get('http://127.0.0.1:8888/xym?id=2').then(
+            function (ret) {
+                console.log(ret.data)
+            })
+        axios.post('http://127.0.0.1:8888/post', {
+            uname: 'tom',
+            pwd: 123
+        }).then(ret => {
+            console.log(ret.data)
+        })
+    </script>
+</body>
+
+</html>

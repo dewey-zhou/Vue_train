@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // var p = new Promise(function (resolve, reject) {
+        //     //这里用于实现异步任务
+        //     setTimeout(function () {
+        //         var flag = false
+        //         if (flag) {
+        //             //正常情况
+        //             //成功时调用 resolve()
+        //             resolve('hello')
+        //         } else {
+        //             //异常情况
+        //             //失败时调用reject()
+        //             reject('出错了')
+        //         }
+        //         p.then(function (data) {
+        //             console.log(data)
+        //         }, function (info) {
+        //             console.log(info)
+        //         })
+        //     }, 100)
+
+
+        // })
+        // p.then(function (ret) {
+        //     //从resolve得到正常结果
+        // }, function (ret) {
+        //     //从reject得到错误信息
+        // })
+
+        // var a = new Promise(
+        //     function (resolve, reject) {
+        //         resolve(123)
+        //     }
+
+        // )
+
+
+        // a.then(function (data) {
+        //     return 'ze'
+        // }).then(function (data) {
+        //     console.log(data)
+        // })
+
+        console.log('~~~~~~~~~~~~~~')
+        var ad = function () {
+            return new Promise(function (resolve, reject) {
+                //resolve或者reject后就会出现返回值 return出来 所以 同时resolve，reject就输出最先的那个
+                reject('dd')
+                resolve('ad')
+            })
+        }
+        ad().then(function (data) {
+                console.log(data)
+            })
+            .catch(function (data) {
+                console.log(data)
+            })
+            .finally(function (data) {
+                console.log('over')
+            })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <div><button @click='handle'>销毁</button></div>
+        <test-tom></test-tom>
+        <test-bob></test-bob>
+    </div>
+    <script src="../js/vue.js"></script>
+    <script>
+        //建立一个事件中心
+        var hub = new Vue()
+        //组件
+        Vue.component('test-tom', {
+                data: function () {
+                    return {
+                        num: 0
+                    }
+                },
+                template: `<div><div>Tom:{{num}}</div>
+                    <div>
+                    <button @click='handle'>点击</button></div>
+                    </div>`,
+                methods: {
+                    handle: function () {
+                        //触发事件
+                        hub.$emit('bob-event', 1)
+                    }
+                },
+                mounted: function () {
+                    //监听事件
+                    hub.$on('tom-event', (val) => {
+                        this.num += val
+                    })
+                }
+            }),
+            Vue.component('test-bob', {
+                data: function () {
+                    return {
+                        num: 0
+                    }
+                },
+                template: `<div><div>bob:{{num}}</div>
+                    <div>
+                    <button @click='handle'>点击</button></div>
+                    </div>`,
+                methods: {
+                    handle: function () {
+                        //触发事件
+                        hub.$emit('tom-event', 2)
+                    }
+                },
+                mounted: function () {
+                    //监听事件
+                    hub.$on('bob-event', (val) => {
+                        this.num += val
+                    })
+                }
+            })
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {
+                handle: function () {
+
+                    //销毁事件
+                    hub.$off('tom-event')
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>

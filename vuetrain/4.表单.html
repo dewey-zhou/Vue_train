@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表单</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- //单行文本： text -->
+        <div>姓名： <input type="text" v-model='uname'></div>
+        <!-- //单选框 radio -->
+        <div>性别：
+            <input type="radio" id='male' v-model='gender' value="male">
+            <label for="male">男</label>
+            <input type="radio" id='female' v-model='gender' value="female">
+            <label for="female">女</label>
+        </div>
+        <!-- //多选框 checkbox -->
+        <div>爱好：
+            <input type="checkbox" id="ball" v-model='hobby' value="ball"><label for="ball">篮球</label>
+            <input type="checkbox" id="sing" v-model='hobby' value="sing"><label for="sing">唱歌</label>
+            <input type="checkbox" id="code" v-model='hobby' value="code"><label for="code">写代码</label>
+        </div>
+        <!-- //下拉单选 select -->
+        <div>职业：
+            <select v-model='occuption1'>
+                <option value="0">请选择职业。。。</option>
+                <option value="1">教师</option>
+                <option value="2">软件工程师</option>v
+                <option value="3">律师</option>
+            </select>
+        </div>
+        <!-- //下拉多选 select -->
+        <div>副职业：
+            <select v-model='occuption2' multiple='true'>
+                <option value="0">请选择职业。。。</option>
+                <option value="1">教师</option>
+                <option value="2">软件工程师</option>v
+                <option value="3">律师</option>
+            </select>
+        </div>
+        <!-- //多行文本 textarea -->
+        <div>个人简历：
+            <textarea v-model='desc'></textarea>
+        </div>
+        <div><button type="submit" @click.prevent='handle'>
+                Save
+            </button></div>
+        <input type="text" v-color='{color:' orange'}'>
+    </div>
+
+    <script src="../js/vue.js"></script>
+    <script>
+        //自定义指令
+        Vue.directory('focus', {
+            inserted: function (el) {
+                //el表示指令所绑定的元素
+                el.focus()
+            }
+        })
+        //带参数的自定义指令
+        Vue.directory('color', {
+            inserted: function (el, binding) {
+                //el表示指令所绑定的元素
+                el.style.backgroundColor = binding.value.color
+            }
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                uname: '3',
+                gender: 'female',
+                hobby: ['ball'],
+                occuption1: 1,
+                occuption2: ['1'],
+                msg: 'dsa',
+                desc: '...'
+            },
+            methods: {
+                handle: function () {
+                    console.log(this.uname)
+                    console.log(this.gender)
+                    console.log(this.hobby)
+                    console.log(this.occuption1)
+                    console.log(this.desc)
+                }
+            },
+            computed: {
+                reverString: function () {
+                    return this.msg.split('').reverse().join('')
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

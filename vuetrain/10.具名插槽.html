@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <alert-box>
+            <h1 slot="header">这是头部</h1>
+            <p slot='footer'>这是底部</p>
+            <p>主要内容1</p>
+            <p>主要内容2</p>
+
+        </alert-box>
+        <p>~~~~~~~~~~~~~
+        </p>
+        <alert-box>
+            <template slot="header">
+                <div>
+                    <p>这是头部</p>
+                    <p>这是头部</p>
+                </div>
+            </template>
+            <template slot="footer">
+                <div>
+                    <p>这是底部</p>
+                    <p>这是底部</p>
+                </div>
+            </template>
+
+            <p>主要内容1</p>
+            <p>主要内容2</p>
+        </alert-box>
+
+
+    </div>
+    <script src="../js/vue.js"></script>
+    <script>
+        Vue.component(
+            'alert-box', {
+                template: `
+        <div>
+            <header>
+            <slot name='header'></slot>
+        </header>
+        <main>
+            <slot></slot>
+        </main>
+        <footer>
+            <slot name ='footer'></slot>
+        </footer>
+        </div>
+        `
+            }
+        )
+        var vm = new Vue({
+            el: '#app'
+        })
+    </script>
+
+</body>
+
+</html>
