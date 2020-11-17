@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图书管理</title>
+</head>
+
+<body>
+    <div id="app">
+        <div><span>编号：</span><input type="text" v-model='newId' disabled='false'><span>名称：</span><input type="text"
+                v-model='newName'><button @click='save' :disabled='isSave'>提交</button></div>
+        <table border="1">
+            <tr>
+                <td>编号</td>
+                <td>名称</td>
+                <td>时间</td>
+                <td>操作</td>
+            </tr>
+            <tr v-for='book in books' :key=book.id>
+                <td>{{book.id}}</td>
+                <td>{{book.name}}</td>
+                <td>{{book.date}}</td>
+                <td><a href='' @click.prevent='toEdit(book.id)'>修改</a>| <a href=''
+                        @click.prevent='deletess(book.id)'>删除</a> </td>
+            </tr>
+        </table>
+    </div>
+    <script src="./js/axios.js"></script>
+    <script src="./js/vue.js"></script>
+    <script>
+        axios.defaults.baseURL = 'http://localhost:3000/'
+        //响应拦截器
+        axios.interceptors.response.use(function (res) {
+            return res.data;
+        }, function (error) {
+            console.log(error)
+        });
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                books: [],
+                newId: '',
+                newName: '',
+                isDisabled: false,
+                isSave: false
+            },
+            methods: {
+                save: async function () {
+                    if (this.isDisabled) {
+                        //编辑操作
+                        //根据当前的ID去更新数组中对应的数据
+                        var ret = await axios.put('books/' + this.newId, {
+                            name: this.newName
+                        })
+                        if (ret.status == 200) {
+                            this.queryData()
+                        }
+
+                    } else {
+                        var ret = await axios.post('books', {
+                            name: this.newName
+                        })
+                        if (ret.status == 200) {
+                            this.queryData()
+                        }
+                    }
+                    //  清空表单
+                    this.newId = ''
+                    this.newName = ''
+                    this.isDisabled = false
+
+                },
+                toEdit: async function (id) {
+                    //根据id查询出要编辑的数据
+                    var ret = await axios.get('books/' + id)
+                    this.newId = ret.id
+                    this.newName = ret.name
+
+                    this.isDisabled = true
+
+                },
+                deletess: async function (id) {
+                    var ret = await axios.delete('books/' + id)
+                    if (ret.status == 200) {
+                        this.queryData()
+                    }
+                },
+                queryData: async function () {
+                    // 调用后台接口获取图书列表数据
+                    // var ret = await axios.get('books');
+                    // this.books = ret.data;
+
+                    this.books = await axios.get('books');
+                    console.log(this.books)
+                }
+            },
+            watch: {
+                newName: async function (id) {
+                    // var flag = this.books.some(function (book) {
+                    //     return book.id == id
+                    // })
+                    var ret = await axios.get('/books/book/' + this.newName)
+                    if (ret.status == 1) {
+                        this.isSave = true
+                    } else {
+                        this.isSave = false
+                    }
+                }
+            },
+            mounted: function () {
+                this.queryData()
+            }
+        })
+    </script>
+</body>
+
+</html>
