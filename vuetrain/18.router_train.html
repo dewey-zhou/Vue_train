@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <router-link to="/dewey">Dewey</router-link>
+        <router-link to="/zoe">Zoe</router-link>
+        <router-view></router-view>
+
+    </div>
+    <script src="./js/vue.js"></script>
+    <script src="./js/vue-router_3.0.2.js"></script>
+    <script>
+        const Dewey = {
+            template: `<h1>dewey</h1>`
+        }
+        const Zoe = {
+            template: `<div>
+            <h1>zoe</h1>
+            <router-link to='/zoe/panda'>Panda</router-link>
+            <router-link to='/zoe/cat'>Cat</router-link>
+            <router-view></router-view>
+        </div>`
+        }
+        const Panda = {
+            template: `<h2>Panda</h2>`
+        }
+        const Cat = {
+            template: `<h2>cat</h2>`
+        }
+        const router = new VueRouter({
+            routes: [{
+                    path: '/dewey',
+                    component: Dewey
+                },
+                {
+                    path: '/zoe',
+                    component: Zoe,
+                    children: [{
+                            path: '/zoe/panda',
+                            component: Panda
+                        },
+                        {
+                            path: '/zoe/cat',
+                            component: Cat
+                        }
+                    ]
+                },
+                {
+                    path: '/',
+                    redirect: '/dewey'
+                }
+            ]
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            router
+        })
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <router-link to="/user/1">User1</router-link>
+        <router-link to="/user/2">User2</router-link>
+        <router-link to="/user/3">User3</router-link>
+
+        <router-link to="/register">Register</router-link>
+        <router-view></router-view>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script src="./js/vue-router_3.0.2.js"></script>
+    <script>
+        const User = {
+            props: ['id'],
+            template: `<h1>User{{id}}</h1>`
+        }
+        const Register = {
+            template: `<div>
+            <h1>register</h1>
+            <hr/>
+            <router-link to='/register/tab1'>tab1</router-link>
+            <router-link to='/register/tab2'>tab2</router-link>
+            <router-view></router-view>
+        </div>`
+        }
+        const tab1 = {
+            template: `<h2>tab1</h2>`
+        }
+        const tab2 = {
+            template: `<h2>tab2</h2>`
+        }
+        //创建路由实例对象
+        const router = new VueRouter({
+            //所有路由规则
+            routes: [{
+                    path: '/user/:id',
+                    component: User,
+                    props: true
+                },
+                {
+                    path: '/register',
+                    component: Register,
+                    children: [{
+                            path: '/register/tab1',
+                            component: tab1
+                        },
+                        {
+                            path: '/register/tab2',
+                            component: tab2
+                        }
+                    ]
+                },
+                {
+                    path: '/',
+                    redirect: '/user'
+                }
+
+            ]
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            //挂载路由实例对象
+            //router:router
+            router
+        })
+    </script>
+</body>
+
+</html>
